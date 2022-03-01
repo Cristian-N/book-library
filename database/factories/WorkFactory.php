@@ -14,7 +14,7 @@ class WorkFactory extends Factory
         return [
             'w_id' => $this->faker->word(),
             'title' => $this->faker->name(),
-            'subtitle' => $this->faker->words(5),
+            'subtitle' => $this->faker->words(5, true),
             'authors' => json_encode($this->faker->words(3, false)),
             'translated_titles' => json_encode($this->faker->words(3, false)),
             'subjects' => json_encode($this->faker->words(3, false)),
