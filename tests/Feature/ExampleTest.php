@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -14,8 +16,10 @@ class ExampleTest extends TestCase
      */
     public function test_the_application_returns_a_successful_response()
     {
-        $response = $this->get('/');
+        $works = Work::factory()->count(3)->create();
 
-        $response->assertStatus(200);
+        dump($works);
+
+        $this->assertTrue(true);
     }
 }

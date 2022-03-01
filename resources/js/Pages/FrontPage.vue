@@ -155,8 +155,6 @@
     import { MenuIcon, XIcon } from '@heroicons/vue/outline'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
-    console.log(route('register'));
-
     const navigation = [
         { name: 'Product', href: '#' },
         { name: 'Features', href: '#' },

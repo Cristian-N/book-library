@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Site;
 
 use Illuminate\Foundation\Application;
 use Inertia\Inertia;
+use Inertia\Response;
 use Route;
 
 class FrontPageController
 {
-    public function __invoke(): \Inertia\Response
+    public function __invoke(): Response
     {
         return Inertia::render('FrontPage', [
             'canLogin' => Route::has('login'),
