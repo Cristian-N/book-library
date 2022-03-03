@@ -12,10 +12,10 @@ class WorkFactory extends Factory
     public function definition(): array
     {
         return [
-            'w_id' => $this->faker->word(),
+            'w_id' => $this->faker->unique()->randomNumber(5),
             'title' => $this->faker->name(),
             'subtitle' => $this->faker->words(5, true),
-            'authors' => json_encode($this->faker->words(3, false)),
+            'author' => json_encode($this->faker->words(3, false)),
             'translated_titles' => json_encode($this->faker->words(3, false)),
             'subjects' => json_encode($this->faker->words(3, false)),
             'subject_places' => json_encode($this->faker->words(3, false)),

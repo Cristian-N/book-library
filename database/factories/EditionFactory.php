@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,7 +13,8 @@ class EditionFactory extends Factory
     public function definition(): array
     {
         return [
-            'e_id' => $this->faker->word(),
+            'e_id' => $this->faker->unique()->randomNumber(5),
+            'work_id' => Work::factory(),
             'title' => $this->faker->words(5, true),
             'subtitle' => $this->faker->words(5, true),
             'title_prefix' => $this->faker->words(5, true),
@@ -32,7 +34,7 @@ class EditionFactory extends Factory
             'series' => json_encode($this->faker->words(3, false)),
             'physical_dimensions' => $this->faker->words(2, true),
             'physical_format' => $this->faker->words(2, true),
-            'number_of_pages' => $this->faker->words(2, true),
+            'number_of_pages' => $this->faker->words(1, true),
             'subjects' => json_encode($this->faker->words(3, false)),
             'pagination' => $this->faker->randomDigit(),
             'lccn' => json_encode($this->faker->words(3, false)),

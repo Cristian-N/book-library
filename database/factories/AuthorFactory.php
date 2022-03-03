@@ -12,7 +12,7 @@ class AuthorFactory extends Factory
     public function definition(): array
     {
         return [
-            'a_id' => $this->faker->word(),
+            'a_id' => $this->faker->unique()->randomNumber(5),
             'name' => $this->faker->name(),
             'eastern_order' => $this->faker->boolean(),
             'personal_name' => $this->faker->name(),

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('authors', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->autoIncrement();
+            $table->id();
             $table->string('a_id', 20)->unique();
             $table->string('name', 255);
             $table->boolean('eastern_order')->nullable();

@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('editions', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->autoIncrement();
+            $table->id();
+            $table->string('work_id');
             $table->string('e_id', 20)->unique();
             $table->text('title');
             $table->text('subtitle')->nullable();
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->json('series')->nullable();
             $table->string('physical_dimensions', 50)->nullable();
             $table->string('physical_format', 50)->nullable();
-            $table->string('number_of_pages', 10)->nullable();
+            $table->string('number_of_pages', 20)->nullable();
             $table->json('subjects')->nullable();
             $table->string('pagination')->nullable();
             $table->json('lccn')->nullable();

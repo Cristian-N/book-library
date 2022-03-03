@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('works', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->autoIncrement();
+            $table->id();
             $table->string('w_id', 20)->unique();
             $table->text('title');
             $table->text('subtitle')->nullable();
-            $table->json('authors')->nullable();
+            $table->json('author')->nullable();
             $table->json('translated_titles')->nullable();
             $table->json('subjects')->nullable();
             $table->json('subject_places')->nullable();
