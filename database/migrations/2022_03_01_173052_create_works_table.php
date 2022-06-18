@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('w_id', 20)->unique();
+            $table->string('w_id', 20)->unique()->index();
             $table->text('title');
             $table->text('subtitle')->nullable();
             $table->json('author')->nullable();

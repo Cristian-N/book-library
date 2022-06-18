@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('editions', function (Blueprint $table) {
             $table->id();
             $table->string('work_id');
-            $table->string('e_id', 20)->unique();
+            $table->string('e_id', 20)->unique()->index();
             $table->text('title');
             $table->text('subtitle')->nullable();
             $table->string('title_prefix', 255)->nullable();

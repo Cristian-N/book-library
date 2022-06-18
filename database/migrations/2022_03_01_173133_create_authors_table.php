@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string('a_id', 20)->unique();
+            $table->string('a_id', 20)->unique()->index();
             $table->string('name', 255);
             $table->boolean('eastern_order')->nullable();
             $table->string('personal_name', 255)->nullable();
