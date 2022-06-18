@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
-
 class AdminController
 {
-    public function __invoke(): \Inertia\Response
+    public function __invoke()
     {
-        return Inertia::render('Dashboard');
+        return true;
     }
 }

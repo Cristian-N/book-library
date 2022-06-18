@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Site\FrontPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,19 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// SITE
-Route::get('/', FrontPageController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-// ADMIN
-Route::get('/admin/dashboard', AdminController::class)->middleware(['auth', 'verified'])->name('admin-dashboard');
-
-// EDITOR
-Route::get('/editor/dashboard', FrontPageController::class)->middleware(['auth', 'verified'])->name('editor-dashboard');
-
-// USER
-Route::get('/u/profile', FrontPageController::class)->middleware(['auth', 'verified'])->name('user-profile');
-Route::get('/a/profile', FrontPageController::class)->middleware(['auth', 'verified'])->name('author-profile');
-
-// AUTHENTICATION
 require __DIR__.'/auth.php';

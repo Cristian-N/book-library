@@ -3,19 +3,13 @@
 namespace App\Http\Controllers\Site;
 
 use Illuminate\Foundation\Application;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Support\Facades\View;
 use Route;
 
 class FrontPageController
 {
-    public function __invoke(): Response
+    public function __invoke()
     {
-        return Inertia::render('FrontPage', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return view('welcome');
     }
 }
