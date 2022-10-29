@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Public\WorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,15 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/book/{bookId}/{slug}', WorkController::class)
-    ->missing(function (Request $request) {
-        // this could return closure of a service that can conditionally
-        // return a category or most read books
-        return view('errors.404');
-    });;
-
-Route::get('/admin/dashboard', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
