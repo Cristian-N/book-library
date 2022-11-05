@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('w_id', 20)->unique()->index();
+            $table->string('w_id', 35)->unique()->index();
             $table->text('title');
             $table->text('subtitle')->nullable();
             $table->json('author')->nullable();
@@ -34,7 +34,9 @@ return new class extends Migration
             $table->text('first_sentence')->nullable();
             $table->text('description')->nullable();
             $table->text('notes')->nullable();
-            $table->string('first_publish_date', 20)->nullable();
+            $table->string('created_date', 50)->nullable();
+            $table->string('last_modified', 50)->nullable();
+            $table->string('first_publish_date', 50)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
