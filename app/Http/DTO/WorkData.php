@@ -8,7 +8,7 @@ class WorkData
         public string $key,
         public string $title,
         public ?string $subtitle,
-        public array $authors,
+        public ?array $authors,
         public ?array $translated_titles,
         public ?array $subjects,
         public ?array $subject_places,

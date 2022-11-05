@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('secret'),
         ]);
 
-        User::factory(4)->create();
-
-        Work::factory(10)
-            ->has(Edition::factory()->count(5))
-            ->has(Author::factory()->count(1))
-            ->create();
+//        User::factory(4)->create();
+//
+//        Work::factory(10)
+//            ->has(Edition::factory()->count(5))
+//            ->has(Author::factory()->count(1))
+//            ->create();
     }
 }

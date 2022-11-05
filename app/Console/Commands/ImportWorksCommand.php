@@ -69,7 +69,10 @@ class ImportWorksCommand extends Command
                     while (($line = fgets($handle)) !== false) {
                         yield $line;
                     }
-                })->skip(0)->take(100)->each(function ($line) {
+                })
+                    ->skip(0)
+                    ->take(30000)
+                    ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 
                     $workJSON = json_decode($line[4], true);
@@ -96,14 +99,14 @@ class ImportWorksCommand extends Command
 
         $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
 
-        dd('IMPORTED');
+        dd('IMPORTED'. PHP_EOL);
     }
 
     private function initializeWorkData($work): WorkData
     {
-        $authors = Arr::map($work['authors'], function ($value, $key) {
-            return $value['author']['key'];
-        });
+        $authors = isset($work['authors']) ? Arr::map($work['authors'], function ($value, $key) {
+            return $value['author']['key'] ?? null;
+        }) : null;
 
         return new WorkData(
             $work['key'] ?? null,
@@ -121,8 +124,8 @@ class ImportWorksCommand extends Command
             $work['other_titles'] ?? null,
             $work['links'] ?? null,
             $work['covers'] ?? null,
-            $work['cover_edition'] ?? null,
-            $work['first_sentence'] ?? null,
+            $work['cover_edition']['key'] ?? null,
+            $work['first_sentence']['value'] ?? null,
             $work['description']['value'] ?? null,
             $work['notes'] ?? null,
             $work['first_publish_date'] ?? null,
