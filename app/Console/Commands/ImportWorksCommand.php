@@ -70,8 +70,8 @@ class ImportWorksCommand extends Command
                         yield $line;
                     }
                 })
-                    ->skip(0)
-                    ->take(30000)
+//                    ->skip(0)
+//                    ->take(100000)
                     ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 
@@ -99,7 +99,7 @@ class ImportWorksCommand extends Command
 
         $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
 
-        dd('IMPORTED'. PHP_EOL);
+        dd('IMPORTED');
     }
 
     private function initializeWorkData($work): WorkData

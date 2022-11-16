@@ -190,7 +190,11 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 10,
+                'min_processes' => 2,
+                'maxProcesses' => 12,
+                'maxJobs' => 2500,
+                'memory' => 512,
+                'nice' => 5,
             ],
         ],
     ],
