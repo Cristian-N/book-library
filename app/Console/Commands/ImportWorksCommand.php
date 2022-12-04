@@ -56,7 +56,7 @@ class ImportWorksCommand extends Command
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(0)
+            ->skip(1)
             ->take(1)
             ->each(function($file) {
                 $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
@@ -70,9 +70,9 @@ class ImportWorksCommand extends Command
                         yield $line;
                     }
                 })
-//                    ->skip(0)
-//                    ->take(100000)
-                    ->each(function ($line) {
+                ->skip(1)
+                ->take(1)
+                ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 
                     $workJSON = json_decode($line[4], true);
