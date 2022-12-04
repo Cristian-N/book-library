@@ -6,12 +6,13 @@ class EditionData
 {
     public function __construct(
         public string $key,
-        public string $work_id,
+        public ?string $work_id,
         public string $title,
         public ?string $subtitle,
         public ?string $title_prefix,
         public ?array $other_titles,
         public ?array $authors,
+        public ?array $identifiers,
         public ?string $by_statement,
         public ?string $publish_date,
         public ?string $copyright_date,

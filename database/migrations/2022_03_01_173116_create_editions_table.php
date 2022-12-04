@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('editions', function (Blueprint $table) {
             $table->id();
-            $table->string('work_id');
+            $table->string('work_id')->nullable();
             $table->string('e_id', 20)->unique()->index();
             $table->text('title');
             $table->text('subtitle')->nullable();
             $table->string('title_prefix', 255)->nullable();
             $table->json('other_titles')->nullable();
             $table->json('authors')->nullable();
+            $table->json('identifiers')->nullable();
             $table->string('by_statement')->nullable();
             $table->string('publish_date')->nullable();
             $table->string('copyright_date')->nullable();
