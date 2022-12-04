@@ -18,9 +18,9 @@ class Work extends Model
     {
         parent::boot();
 
-        Work::creating(function($model) {
-            $model->w_id = Base64UID::generate();
-        });
+//        Work::creating(function($model) {
+//            $model->w_id = Base64UID::generate();
+//        });
     }
 
     public function editions(): HasMany

@@ -16,9 +16,9 @@ class Edition extends Model
     {
         parent::boot();
 
-        Edition::creating(function($model) {
-            $model->e_id = Base64UID::generate();
-        });
+//        Edition::creating(function($model) {
+//            $model->e_id = Base64UID::generate();
+//        });
     }
 
 }

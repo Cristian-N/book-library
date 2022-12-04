@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\DTO\EditionData;
 use App\Jobs\ImportEdition;
 use App\Jobs\ImportWork;
 use App\Models\Cover;
@@ -13,10 +14,12 @@ use App\Models\Work;
 use Carbon\Carbon;
 use GpsLab\Component\Base64UID\Base64UID;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\LazyCollection;
+use TypeError;
 
 class ImportEditionsCommand extends Command
 {
@@ -55,11 +58,11 @@ class ImportEditionsCommand extends Command
 
         $this->info(PHP_EOL . now() . ' Processing editions ...' . PHP_EOL);
 
-        $path = base_path('storage/app/public/editions');
+        $path = base_path('storage/app/private');
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(1)
+            // ->skip(1)
             ->take(10)
             ->each(function($file) {
                 $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
@@ -72,12 +75,21 @@ class ImportEditionsCommand extends Command
                     while (($line = fgets($handle)) !== false) {
                         yield $line;
                     }
-                })->each(function ($line) {
+                })
+                // ->skip(1)
+                ->take(1)
+                ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 
                     $item = json_decode($line[4], true);
 
-                    ImportEdition::dispatch($item);
+                    try {
+                        $edition = $this->initializeEditionData($item);
+
+                        ImportEdition::dispatch($edition);
+                    } catch (TypeError $e) {
+                        Log::error('Could not initialize WorkData DTO', $edition);
+                    }
 
                     $this->output->progressAdvance();
                 });
@@ -94,5 +106,62 @@ class ImportEditionsCommand extends Command
         $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
 
         dd('IMPORTED');
+    }
+
+    private function initializeEditionData(mixed $item): EditionData
+    {
+        $authors = isset($work['authors']) ? Arr::map($work['authors'], function ($value, $key) {
+            return $value['author']['key'] ?? null;
+        }) : null;
+
+        return new EditionData(
+            $item['key'] ?? null,
+            $item['work_id'] ?? null,
+            $item['title'] ?? null,
+            $item['subtitle'] ?? null,
+            $item['title_prefix'] ?? null,
+            $item['other_titles'] ?? null,
+            $authors ?? null,
+            $item['bt_statement'] ?? null,
+            $item['publish_date'] ?? null,
+            $item['copyright_date'] ?? null,
+            $item['edition_name'] ?? null,
+            $item['languages'] ?? null,
+            $item['description'] ?? null,
+            $item['notes'] ?? null,
+            $item['genres'] ?? null,
+            $item['table_of_contents'] ?? null,
+            $item['work_titles'] ?? null,
+            $item['series'] ?? null,
+            $item['physical_dimensions'] ?? null,
+            $item['physical_format'] ?? null,
+            $item['number_of_pages'] ?? null,
+            $item['subjects'] ?? null,
+            $item['pagination'] ?? null,
+            $item['lccn'] ?? null,
+            $item['ocaid'] ?? null,
+            $item['oclc_numbers'] ?? null,
+            $item['isbn_10'] ?? null,
+            $item['isbn_13'] ?? null,
+            $item['dewey_decimal_class'] ?? null,
+            $item['lc_classifications'] ?? null,
+            $item['contributions'] ?? null,
+            $item['publish_date'] ?? null,
+            $item['publish_country'] ?? null,
+            $item['publishers'] ?? null,
+            $item['distributors'] ?? null,
+            $item['first_sentence'] ?? null,
+            $item['weight'] ?? null,
+            $item['location'] ?? null,
+            $item['collections'] ?? null,
+            $item['uris'] ?? null,
+            $item['uri_descriptions'] ?? null,
+            $item['translation_of'] ?? null,
+            $item['works'] ?? null,
+            $item['source_records'] ?? null,
+            $item['translated_from'] ?? null,
+            $item['scan_records'] ?? null,
+            $item['volumes'] ?? null,
+        );
     }
 }
