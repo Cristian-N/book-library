@@ -57,8 +57,8 @@ class ImportEditionsCommand extends Command
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(1)
-            ->take(9)
+            ->skip(5)
+            ->take(1)
             ->each(function($file) {
                 $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
 
@@ -71,8 +71,8 @@ class ImportEditionsCommand extends Command
                         yield $line;
                     }
                 })
-                //->skip(11000)
-                //->take(10000)
+                ->skip(0)
+                ->take(10000)
                 ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 

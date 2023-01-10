@@ -50,7 +50,7 @@ class ImportEdition implements ShouldQueue
                 'other_titles' => json_encode($this->edition->other_titles),
                 'authors' => json_encode($this->edition->authors),
                 'identifiers' => json_encode($this->edition->identifiers),
-                'by_statement' => $this->edition->by_statement,
+                'by_statement' => (strlen($this->edition->by_statement) > 200) ? substr($this->edition->by_statement  , 0, 200) . '...' : $this->edition->by_statement,
                 'publish_date' => $this->edition->publish_date,
                 'copyright_date' => $this->edition->copyright_date,
                 'edition_name' => $this->edition->edition_name,
