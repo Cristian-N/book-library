@@ -2,24 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\ImportEdition;
-use App\Jobs\ImportWork;
+use App\Http\DTO\EditionUpdateData;
 use App\Jobs\UpdateEdition;
-use App\Models\Cover;
-use App\Models\Edition;
-use App\Models\Identifier;
-use App\Models\Publisher;
-use App\Models\Subject;
-use App\Models\Work;
-use Carbon\Carbon;
-use GpsLab\Component\Base64UID\Base64UID;
 use Illuminate\Console\Command;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\LazyCollection;
-use Illuminate\Support\Str;
+use TypeError;
 
 class UpdateEditionsCommand extends Command
 {
@@ -58,12 +48,12 @@ class UpdateEditionsCommand extends Command
 
         $this->info(PHP_EOL . now() . ' Processing editions ...' . PHP_EOL);
 
-        $path = base_path('storage/app/public/editions');
+        $path = base_path('storage/app/private');
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(310)
-            ->take(40)
+            ->skip(0)
+            ->take(10)
             ->each(function ($file) {
                 $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
 
@@ -75,18 +65,22 @@ class UpdateEditionsCommand extends Command
                     while (($line = fgets($handle)) !== false) {
                         yield $line;
                     }
-                })->each(function ($line) {
+                })
+//                ->skip(0)
+//                ->take(100)
+                ->each(function ($line) {
                     $line = preg_split("/[\t]/", $line);
 
                     $item = json_decode($line[4], true);
 
-                    if (
-                        !empty($item['key'])
-                        && !empty($item['works'][0]['key'])
-                    ) {
-                        UpdateEdition::dispatch($item);
-                    } else {
-                        // Log::info($item);
+                    try {
+                        if (isset($item['key'])) {
+                            $edition = $this->initializeEditionData($item);
+
+                            UpdateEdition::dispatch($edition);
+                        }
+                    } catch (TypeError $e) {
+                        Log::error('Could not initialize EditionUpdateData DTO ' . $e->getMessage(), $item);
                     }
 
                     $this->output->progressAdvance();
@@ -104,5 +98,21 @@ class UpdateEditionsCommand extends Command
         $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
 
         dd('IMPORTED');
+    }
+
+    private function initializeEditionData(mixed $item): EditionUpdateData
+    {
+        return new EditionUpdateData(
+            $item['key'],
+            isset($item['authors']) ? Arr::map($item['authors'], function ($value, $key) {
+                return $value['key'] ?? null;
+            }) : null,
+            isset($item['languages']) ? Arr::map($item['languages'], function ($value, $key) {
+                return $value['key'] ?? null;
+            }) : null,
+            isset($item['works']) ? Arr::map($item['works'], function ($value, $key) {
+                return $value['key'] ?? null;
+            }) : null,
+        );
     }
 }

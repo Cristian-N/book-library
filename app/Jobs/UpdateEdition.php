@@ -2,13 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\Identifier;
-use App\Models\Publisher;
-use App\Models\Subject;
-use Carbon\Carbon;
+use App\Http\DTO\EditionUpdateData;
 use Error;
 use Exception;
-use GpsLab\Component\Base64UID\Base64UID;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\QueryException;
@@ -23,14 +19,14 @@ class UpdateEdition implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $edition;
+    private EditionUpdateData $edition;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($edition)
+    public function __construct(EditionUpdateData $edition)
     {
         $this->edition = $edition;
     }
@@ -40,22 +36,20 @@ class UpdateEdition implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         DB::disableQueryLog();
 
         try {
-
             DB::table('editions')
-                ->where('key', $this->edition['key'])
-                ->update(['work_key' => $this->edition['works'][0]['key']]);
-
+                ->where('e_id', $this->edition->key)
+                ->update([
+                    'authors' => json_encode($this->edition->authors),
+                    'languages' => json_encode($this->edition->languages),
+                    'works' => json_encode($this->edition->works),
+                ]);
         } catch (Error | QueryException | Exception $e) {
-
-            if (!Str::contains($e->getMessage(), 'Duplicate')) {
-                Log::info('import failed for edition ' . $this->edition['key'] . ' -- Error: ' . $e->getMessage());
-                Log::info($this->edition);
-            }
+            Log::info('Update failed for Edition ' . $this->edition->key . ' -- Error: ' . $e->getMessage(), $this->edition->toArray());
         }
     }
 }
