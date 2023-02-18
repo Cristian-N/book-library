@@ -46,7 +46,6 @@ class UpdateEdition implements ShouldQueue
                 ->update([
                     'authors' => json_encode($this->edition->authors),
                     'languages' => json_encode($this->edition->languages),
-                    'works' => json_encode($this->edition->works),
                 ]);
         } catch (Error | QueryException | Exception $e) {
             Log::info('Update failed for Edition ' . $this->edition->key . ' -- Error: ' . $e->getMessage(), $this->edition->toArray());

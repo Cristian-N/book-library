@@ -131,7 +131,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | When this option is enabled, Horizon's "terminate" command will not
-    | wait on all of the workers to terminate unless the --wait option
+    | wait on all the workers to terminate unless the --wait option
     | is provided. Fast termination can shorten deployment delay by
     | allowing a new instance of Horizon to start while the last
     | instance will continue to terminate each of its workers.
@@ -191,9 +191,10 @@ return [
         'local' => [
             'supervisor-1' => [
                 'min_processes' => 1,
-                'maxProcesses' => 8,
+                'maxProcesses' => 10,
                 'maxJobs' => 1000,
-                'memory' => 512,
+                'memory' => 128,
+                'tries' => 1,
             ],
         ],
     ],

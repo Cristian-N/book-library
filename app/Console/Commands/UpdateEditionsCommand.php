@@ -52,7 +52,7 @@ class UpdateEditionsCommand extends Command
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(0)
+            ->skip(50)
             ->take(10)
             ->each(function ($file) {
                 $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
