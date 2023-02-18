@@ -193,7 +193,7 @@ return [
                 'min_processes' => 1,
                 'maxProcesses' => 10,
                 'maxJobs' => 1000,
-                'memory' => 128,
+                'memory' => 192,
                 'tries' => 1,
             ],
         ],
