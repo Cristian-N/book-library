@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Cover;
 use App\Models\Subject;
 use App\Models\Work;
 use Exception;
@@ -67,7 +66,7 @@ class ImportWork implements ShouldQueue
                 'updated_at' => now(),
             ]);
         } catch (Exception $e) {
-            Log::info('Import failed for Work model ' . $this->work->key . ' -- Error: ' . $e->getMessage(), $this->work->toArray());
+            Log::info('Import failed for Work model '.$this->work->key.' -- Error: '.$e->getMessage(), $this->work->toArray());
         }
 
 //        $data = [

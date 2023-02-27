@@ -4,11 +4,6 @@ namespace App\Console\Commands;
 
 use App\Http\DTO\EditionData;
 use App\Jobs\ImportEdition;
-use App\Models\Cover;
-use App\Models\Edition;
-use App\Models\Identifier;
-use App\Models\Publisher;
-use App\Models\Subject;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
@@ -51,7 +46,7 @@ class ImportEditionsCommand extends Command
     {
         $time_start = microtime(true);
 
-        $this->info(PHP_EOL . now() . ' Processing editions ...' . PHP_EOL);
+        $this->info(PHP_EOL.now().' Processing editions ...'.PHP_EOL);
 
         $path = base_path('storage/app/private');
         $files = collect(File::allFiles($path));
@@ -59,8 +54,8 @@ class ImportEditionsCommand extends Command
         $files
             ->skip(5)
             ->take(1)
-            ->each(function($file) {
-                $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
+            ->each(function ($file) {
+                $this->info('Processing file '.$file->getFilename().' ...'.PHP_EOL);
 
                 $this->output->progressStart(100000);
 
@@ -85,7 +80,7 @@ class ImportEditionsCommand extends Command
                             ImportEdition::dispatch($edition);
                         }
                     } catch (TypeError $e) {
-                        Log::error('Could not initialize EditionData DTO ' . $e->getMessage(), $item);
+                        Log::error('Could not initialize EditionData DTO '.$e->getMessage(), $item);
                     }
 
                     $this->output->progressAdvance();
@@ -93,14 +88,14 @@ class ImportEditionsCommand extends Command
 
                 $this->output->progressFinish();
 
-                $this->info('Processing done for file: ' . $file->getFilename() . PHP_EOL);
+                $this->info('Processing done for file: '.$file->getFilename().PHP_EOL);
             });
 
         $time_end = microtime(true);
 
-        $execution_time = ($time_end - $time_start)/60;
+        $execution_time = ($time_end - $time_start) / 60;
 
-        $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
+        $this->info(now().' - Execution time: '.$execution_time.PHP_EOL);
 
         dd('IMPORTED');
     }

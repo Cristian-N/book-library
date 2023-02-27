@@ -23,7 +23,7 @@ Route::get('/book/{bookId}/{slug}', WorkController::class)
         // this could return closure of a service that can conditionally
         // return a category or most read books
         return view('errors.404');
-    });;
+    });
 
 Route::get('/admin/dashboard', function () {
     return view('dashboard');

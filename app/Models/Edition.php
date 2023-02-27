@@ -20,5 +20,4 @@ class Edition extends Model
 //            $model->e_id = Base64UID::generate();
 //        });
     }
-
 }

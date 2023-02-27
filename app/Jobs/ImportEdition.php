@@ -44,13 +44,13 @@ class ImportEdition implements ShouldQueue
             Edition::insert([
                 'e_id' => $this->edition->key,
                 'work_id' => $this->edition->work_id,
-                'title' => (strlen($this->edition->title) > 200) ? substr($this->edition->title  , 0, 200) . '...' : $this->edition->title,
+                'title' => (strlen($this->edition->title) > 200) ? substr($this->edition->title, 0, 200).'...' : $this->edition->title,
                 'subtitle' => $this->edition->subtitle,
                 'title_prefix' => $this->edition->title_prefix,
                 'other_titles' => json_encode($this->edition->other_titles),
                 'authors' => json_encode($this->edition->authors),
                 'identifiers' => json_encode($this->edition->identifiers),
-                'by_statement' => (strlen($this->edition->by_statement) > 200) ? substr($this->edition->by_statement  , 0, 200) . '...' : $this->edition->by_statement,
+                'by_statement' => (strlen($this->edition->by_statement) > 200) ? substr($this->edition->by_statement, 0, 200).'...' : $this->edition->by_statement,
                 'publish_date' => $this->edition->publish_date,
                 'copyright_date' => $this->edition->copyright_date,
                 'edition_name' => $this->edition->edition_name,
@@ -94,7 +94,7 @@ class ImportEdition implements ShouldQueue
                 'updated_at' => now(),
             ]);
         } catch (Exception $e) {
-            Log::info('Import failed for Edition model ' . $this->edition->key . ' -- Error: ' . $e->getMessage(), $this->edition->toArray());
+            Log::info('Import failed for Edition model '.$this->edition->key.' -- Error: '.$e->getMessage(), $this->edition->toArray());
         }
 
 //        if (

@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\WorkService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Throwable;
 
 class WorkController extends Controller
 {
     public function __construct(
         private readonly WorkService $workService
-    ) { }
+    ) {
+    }
 
     public function __invoke(Request $request): View
     {

@@ -5,7 +5,6 @@ namespace App\Jobs;
 use Exception;
 use GpsLab\Component\Base64UID\Base64UID;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,15 +44,15 @@ class ImportAuthor implements ShouldQueue
             'updated_at' => now(),
         ];
 
-        !empty($this->author['name']) ? $data['name'] = $this->author['name'] : null;
-        !empty($this->author['personal_name']) ? $data['personal_name'] = $this->author['personal_name'] : null;
-        !empty($this->author['alternate_names']) ? $data['alternate_names'] = implode(',', $this->author['alternate_names']) : null;
-        !empty($this->author['last_modified']['value']) ? $data['last_modified'] = $this->author['last_modified']['value'] : null;
+        ! empty($this->author['name']) ? $data['name'] = $this->author['name'] : null;
+        ! empty($this->author['personal_name']) ? $data['personal_name'] = $this->author['personal_name'] : null;
+        ! empty($this->author['alternate_names']) ? $data['alternate_names'] = implode(',', $this->author['alternate_names']) : null;
+        ! empty($this->author['last_modified']['value']) ? $data['last_modified'] = $this->author['last_modified']['value'] : null;
 
         try {
             DB::table('authors')->insert($data);
         } catch (Exception $e) {
-            Log::info('import failed for ' . $this->author['key']);
+            Log::info('import failed for '.$this->author['key']);
         }
     }
 }

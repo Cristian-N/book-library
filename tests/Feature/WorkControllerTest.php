@@ -14,7 +14,7 @@ class WorkControllerTest extends TestCase
     {
         $workFactory = Work::factory()->create()->first();
 
-        $response = $this->get('/book/' . $workFactory->w_id . '/test-slug');
+        $response = $this->get('/book/'.$workFactory->w_id.'/test-slug');
 
         $response->assertStatus(200);
     }

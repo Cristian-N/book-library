@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 class AdminController
 {
-    public function __invoke()
+    public function __invoke(): bool
     {
         return true;
     }

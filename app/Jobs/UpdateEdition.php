@@ -13,7 +13,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class UpdateEdition implements ShouldQueue
 {
@@ -33,8 +32,6 @@ class UpdateEdition implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -47,8 +44,8 @@ class UpdateEdition implements ShouldQueue
                     'authors' => json_encode($this->edition->authors),
                     'languages' => json_encode($this->edition->languages),
                 ]);
-        } catch (Error | QueryException | Exception $e) {
-            Log::info('Update failed for Edition ' . $this->edition->key . ' -- Error: ' . $e->getMessage(), $this->edition->toArray());
+        } catch (Error|QueryException|Exception $e) {
+            Log::info('Update failed for Edition '.$this->edition->key.' -- Error: '.$e->getMessage(), $this->edition->toArray());
         }
     }
 }

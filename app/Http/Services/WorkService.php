@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Http\DTO\WorkData;
 use App\Models\Work;
 
 class WorkService

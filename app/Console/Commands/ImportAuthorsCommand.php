@@ -3,20 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Jobs\ImportAuthor;
-use Exception;
-use GpsLab\Component\Base64UID\Base64UID;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\LazyCollection;
 
 class ImportAuthorsCommand extends Command
 {
     private $fileIsProcessed = [];
+
     private $idsFromFile = [];
 
     /**
@@ -52,7 +46,7 @@ class ImportAuthorsCommand extends Command
     {
         $time_start = microtime(true);
 
-        $this->info(now() . ' Processing authors ...');
+        $this->info(now().' Processing authors ...');
 
         $path = base_path('storage/app/public/authors');
         $files = collect(File::allFiles($path));
@@ -60,8 +54,8 @@ class ImportAuthorsCommand extends Command
         $files
             ->skip(70)
             ->take(10)
-            ->each(function($file) {
-                $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
+            ->each(function ($file) {
+                $this->info('Processing file '.$file->getFilename().' ...'.PHP_EOL);
 
                 $this->output->progressStart(100000);
 
@@ -71,7 +65,7 @@ class ImportAuthorsCommand extends Command
                     while (($line = fgets($handle)) !== false) {
                         yield $line;
                     }
-                })->each(function ($line) use ($file) {
+                })->each(function ($line) {
                     $item = preg_split("/[\t]/", $line);
 
                     $author = json_decode($item[4], true);
@@ -83,14 +77,14 @@ class ImportAuthorsCommand extends Command
 
                 $this->output->progressFinish();
 
-                $this->info('Processing done for file: ' . $file->getFilename() . PHP_EOL);
-        });
+                $this->info('Processing done for file: '.$file->getFilename().PHP_EOL);
+            });
 
         $time_end = microtime(true);
 
-        $execution_time = ($time_end - $time_start)/60;
+        $execution_time = ($time_end - $time_start) / 60;
 
-        $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
+        $this->info(now().' - Execution time: '.$execution_time.PHP_EOL);
 
         dd('IMPORTED');
     }

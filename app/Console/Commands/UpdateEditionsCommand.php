@@ -46,16 +46,18 @@ class UpdateEditionsCommand extends Command
     {
         $time_start = microtime(true);
 
-        $this->info(PHP_EOL . now() . ' Processing editions ...' . PHP_EOL);
+        $this->info(PHP_EOL.now().' Processing editions ...'.PHP_EOL);
 
         $path = base_path('storage/app/private');
         $files = collect(File::allFiles($path));
 
         $files
-            ->skip(50)
-            ->take(10)
+            ->skip(90)
+            ->take(25)
             ->each(function ($file) {
-                $this->info('Processing file ' . $file->getFilename() . ' ...' . PHP_EOL);
+                sleep(120);
+
+                $this->info('Processing file '.$file->getFilename().' ...'.PHP_EOL);
 
                 $this->output->progressStart(100000);
 
@@ -80,7 +82,7 @@ class UpdateEditionsCommand extends Command
                             UpdateEdition::dispatch($edition);
                         }
                     } catch (TypeError $e) {
-                        Log::error('Could not initialize EditionUpdateData DTO ' . $e->getMessage(), $item);
+                        Log::error('Could not initialize EditionUpdateData DTO '.$e->getMessage(), $item);
                     }
 
                     $this->output->progressAdvance();
@@ -88,14 +90,14 @@ class UpdateEditionsCommand extends Command
 
                 $this->output->progressFinish();
 
-                $this->info('Processing done for file: ' . $file->getFilename() . PHP_EOL);
+                $this->info('Processing done for file: '.$file->getFilename().PHP_EOL);
             });
 
         $time_end = microtime(true);
 
         $execution_time = ($time_end - $time_start) / 60;
 
-        $this->info(now() . ' - Execution time: ' . $execution_time . PHP_EOL);
+        $this->info(now().' - Execution time: '.$execution_time.PHP_EOL);
 
         dd('IMPORTED');
     }

@@ -17,7 +17,7 @@ class Author extends Model
     {
         parent::boot();
 
-        Author::creating(function($model) {
+        Author::creating(function ($model) {
             $model->a_id = Base64UID::generate();
         });
     }
