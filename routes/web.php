@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Public\WorkController;
+use App\Http\Controllers\Site\WorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/book/{bookId}/{slug}', WorkController::class)
+Route::get('/book/{bookId}/{slug}', [WorkController::class, 'single'])
     ->missing(function (Request $request) {
         // this could return closure of a service that can conditionally
         // return a category or most read books

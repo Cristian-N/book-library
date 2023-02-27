@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Public;
+namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\WorkService;
@@ -14,7 +14,7 @@ class WorkController extends Controller
     ) {
     }
 
-    public function __invoke(Request $request): View
+    public function single(Request $request): View
     {
         $workId = $request->route('bookId');
 
